@@ -1,50 +1,48 @@
 package com.example.carparts.movement;
 
+import com.example.carparts.bill.BillEntity;
+import com.example.carparts.model.BaseEntity;
+import com.example.carparts.part.PartEntity;
+import com.example.carparts.unit.UnitEntity;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "movement", schema = "warehouse")
-public class MovementEntity {
-    private int id;
-    private int qty;
+public class MovementEntity extends BaseEntity {
 
-    @Id
-    @Column(name = "id", nullable = false)
-    public int getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "bill_id", nullable = false)
+    private BillEntity bill;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "part_id", nullable = false)
+    private PartEntity part;
 
-    @Basic
     @Column(name = "qty", nullable = false)
-    public int getQty() {
-        return qty;
+    private Integer qty;
+
+    public BillEntity getBill() {
+        return this.bill;
     }
 
-    public void setQty(int qty) {
+    public void setBill(BillEntity bill) {
+        this.bill = bill;
+    }
+
+    public PartEntity getPart() {
+        return this.part;
+    }
+
+    public void setPart(PartEntity part) {
+        this.part = part;
+    }
+
+    public Integer getQty() {
+        return this.qty;
+    }
+
+    public void setQty(Integer qty) {
         this.qty = qty;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MovementEntity that = (MovementEntity) o;
-
-        if (id != that.id) return false;
-        if (qty != that.qty) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + qty;
-        return result;
     }
 }
