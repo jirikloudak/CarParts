@@ -5,15 +5,19 @@ import com.example.carparts.model.NamedEntity;
 import com.example.carparts.price.PriceEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "part", schema = "warehouse")
 public class PartEntity extends NamedEntity {
 
     @Column(length = 50)
+    @NotEmpty
     private String name;
 
     @Column(name = "code", nullable = false, length = 20)
+    @NotEmpty
     private String code;
 
     @ManyToOne
@@ -24,6 +28,8 @@ public class PartEntity extends NamedEntity {
     private Integer qty;
 
     @Column(name = "min", nullable = false)
+    @NotEmpty
+    @Min(value = 0, message = "Minimum musí být nezáporné")
     private Integer min;
 
     public String getCode() {

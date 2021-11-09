@@ -6,6 +6,8 @@ import com.example.carparts.part.PartEntity;
 import com.example.carparts.unit.UnitEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "movement", schema = "warehouse")
@@ -20,6 +22,8 @@ public class MovementEntity extends BaseEntity {
     private PartEntity part;
 
     @Column(name = "qty", nullable = false)
+    @NotEmpty
+    @Min(value = 1, message = "Počet kusů musí být kladný")
     private Integer qty;
 
     public BillEntity getBill() {

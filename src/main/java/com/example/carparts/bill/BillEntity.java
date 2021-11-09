@@ -4,6 +4,7 @@ import com.example.carparts.model.BaseEntity;
 import com.example.carparts.unit.UnitEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Date;
 
 @Entity
@@ -11,9 +12,11 @@ import java.sql.Date;
 public class BillEntity extends BaseEntity {
 
     @Column(name = "type", nullable = false)
+    @NotEmpty
     private Character type;
 
     @Column(name = "paired", nullable = false, length = 25)
+    @NotEmpty
     private String paired;
 
     @ManyToOne
@@ -21,6 +24,7 @@ public class BillEntity extends BaseEntity {
     private UnitEntity unit;
 
     @Column(name = "bill_date", nullable = false)
+    @NotEmpty
     private Date billDate;
 
     public Character getType() {
