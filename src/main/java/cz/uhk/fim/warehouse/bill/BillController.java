@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -39,4 +40,12 @@ public class BillController {
         Pageable pageable = PageRequest.of(page - 1, pageSize);
         return bills.findAll(pageable);
     }
+/**
+    @GetMapping({ "/bills" })
+    public @ResponseBody  showResourcesBillList() {
+        List<BillEntity> bills = new Vets();
+        bills.addAll(this.bills.findAll());
+        return bills;
+    }
+    */
 }
