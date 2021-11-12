@@ -1,4 +1,4 @@
-package cz.uhk.fim.warehouse.model;
+package cz.uhk.fim.warehouse.system;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
