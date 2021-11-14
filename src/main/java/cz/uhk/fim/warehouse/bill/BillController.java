@@ -32,7 +32,7 @@ public class BillController {
         model.addAttribute("totalPages", paginated.getTotalPages());
         model.addAttribute("totalItems", paginated.getTotalElements());
         model.addAttribute("listBills", listBills);
-        return "bills/billList";
+        return "bills/billList.html";
     }
 
     private Page<BillEntity> findPaginated(int page) {

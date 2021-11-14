@@ -1,6 +1,6 @@
 package cz.uhk.fim.warehouse.price;
 
-import cz.uhk.fim.warehouse.model.NamedEntity;
+import cz.uhk.fim.warehouse.model.BaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "price", schema = "warehouse")
-public class PriceEntity extends NamedEntity {
+public class PriceEntity extends BaseEntity {
 
-    @Column(length = 6)
+    @Column(name = "name", nullable = false, length = 6)
     @NotEmpty
     @Pattern(regexp = "^\\d\\d[A-Za-z]$", message = "Cenová skupina se musí skládat ze dvou číslic a písmena, např. \"12B\"")
     private String name;
@@ -26,6 +26,14 @@ public class PriceEntity extends NamedEntity {
     @NotEmpty
     @Min(value = 0, message = "Prodejní cena musí být nezáporná")
     private BigDecimal sale;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public BigDecimal getPurchase() {
         return this.purchase;

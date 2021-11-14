@@ -300,6 +300,10 @@ a:hover {
     text-decoration: none;
 }
 
+.pages * {
+    text-decoration: none;
+}
+
 .page-wrap {
     min-height: 100vh;
 }

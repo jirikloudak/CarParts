@@ -1,6 +1,6 @@
 package cz.uhk.fim.warehouse.part;
 
-import cz.uhk.fim.warehouse.model.NamedEntity;
+import cz.uhk.fim.warehouse.model.BaseEntity;
 import cz.uhk.fim.warehouse.price.PriceEntity;
 
 import javax.persistence.*;
@@ -9,9 +9,9 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "part", schema = "warehouse")
-public class PartEntity extends NamedEntity {
+public class PartEntity extends BaseEntity {
 
-    @Column(length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     @NotEmpty
     private String name;
 
@@ -30,6 +30,14 @@ public class PartEntity extends NamedEntity {
     @NotEmpty
     @Min(value = 0, message = "Minimum musí být nezáporné")
     private Integer min;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getCode() {
         return this.code;
