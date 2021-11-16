@@ -27,37 +27,36 @@
             </tbody>
         </table>
     </div>
-</div>
 
-<div class="pages" th:if="${totalPages > 1}">
-    <span>Pages:</span>
-    <span>[</span>
-    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-      <a th:if="${currentPage != i}" th:href="@{'/bills/' + ${i}}">[[${i}]]</a>
-      <span th:unless="${currentPage != i}">[[${i}]]</span>
-    </span>
-    <span>]&nbsp;</span>
-    <span>
-      <a th:if="${currentPage > 1}" th:href="@{'/bills.html/?page=1'}" title="První"
-         class="fas fa-angle-double-left"></a>
-      <span th:unless="${currentPage > 1}" title="First" class="fas fa-angle-double-left"></span>
-    </span>
-    <span>
-      <a th:if="${currentPage > 1}" th:href="@{'/bills.html/?page=' + ${currentPage - 1}}" title="Předchozí"
-         class="fas fa-angle-left"></a>
-      <span th:unless="${currentPage > 1}" title="Previous" class="fas fa-angle-left"></span>
-    </span>
-    <span>
-      <a th:if="${currentPage < totalPages}" th:href="@{'/bills.html/?page=' + ${currentPage + 1}}" title="Další"
-         class="fas fa-angle-right"></a>
-      <span th:unless="${currentPage < totalPages}" title="Next" class="fas fa-angle-right"></span>
-    </span>
-    <span>
-      <a th:if="${currentPage < totalPages}" th:href="@{'/bills.html/?page=' + ${totalPages}}" title="Poslední"
-         class="fas fa-angle-double-right"></a>
-      <span th:unless="${currentPage < totalPages}" title="Last" class="fas fa-angle-double-right"></span>
-    </span>
+    <div class="pages" th:if="${totalPages > 1}">
+        <span>Pages:</span>
+        <span>[</span>
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${currentPage != i}" th:href="@{'/bills/' + ${i}}">[[${i}]]</a>
+          <span th:unless="${currentPage != i}">[[${i}]]</span>
+        </span>
+        <span>]&nbsp;</span>
+        <span>
+          <a th:if="${currentPage > 1}" th:href="@{'/bills.html/?page=1'}" title="První"
+             class="fas fa-angle-double-left"></a>
+          <span th:unless="${currentPage > 1}" title="First" class="fas fa-angle-double-left"></span>
+        </span>
+        <span>
+          <a th:if="${currentPage > 1}" th:href="@{'/bills.html/?page=' + ${currentPage - 1}}" title="Předchozí"
+             class="fas fa-angle-left"></a>
+          <span th:unless="${currentPage > 1}" title="Previous" class="fas fa-angle-left"></span>
+        </span>
+        <span>
+          <a th:if="${currentPage < totalPages}" th:href="@{'/bills.html/?page=' + ${currentPage + 1}}" title="Další"
+             class="fas fa-angle-right"></a>
+          <span th:unless="${currentPage < totalPages}" title="Next" class="fas fa-angle-right"></span>
+        </span>
+        <span>
+          <a th:if="${currentPage < totalPages}" th:href="@{'/bills.html/?page=' + ${totalPages}}" title="Poslední"
+             class="fas fa-angle-double-right"></a>
+          <span th:unless="${currentPage < totalPages}" title="Last" class="fas fa-angle-double-right"></span>
+        </span>
+    </div>
 </div>
-
 </body>
 </html>

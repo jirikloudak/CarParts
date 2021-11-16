@@ -20,19 +20,20 @@ public class BillController {
         this.bills = bills;
     }
 
-    @GetMapping("/bills.html")
+    @GetMapping("/bills")
     public String showBillList(@RequestParam(defaultValue = "1") int page, Model model) {
         Page<BillEntity> paginated = findPaginated(page);
-        return addPaginationModel(page, paginated, model);
+        model = addPaginationModel(page, paginated, model);
+        return "bills/billList.html";
     }
 
-    private String addPaginationModel(int page, Page<BillEntity> paginated, Model model) {
+    private Model addPaginationModel(int page, Page<BillEntity> paginated, Model model) {
         List<BillEntity> listBills = paginated.getContent();
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", paginated.getTotalPages());
         model.addAttribute("totalItems", paginated.getTotalElements());
         model.addAttribute("listBills", listBills);
-        return "bills/billList.html";
+        return model;
     }
 
     private Page<BillEntity> findPaginated(int page) {
