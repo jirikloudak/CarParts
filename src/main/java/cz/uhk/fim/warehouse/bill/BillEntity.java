@@ -27,6 +27,13 @@ public class BillEntity extends BaseEntity {
     @NotEmpty
     private Date billDate;
 
+    public BillEntity() {
+    }
+
+    public BillEntity(Character type) {
+        this.type = type;
+    }
+
     public Character getType() {
         return this.type;
     }

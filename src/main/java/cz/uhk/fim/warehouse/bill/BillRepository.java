@@ -1,6 +1,6 @@
 package cz.uhk.fim.warehouse.bill;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BillRepository extends PagingAndSortingRepository<BillEntity, Integer> {
+public interface BillRepository extends JpaRepository<BillEntity, Integer> {
 }

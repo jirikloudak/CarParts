@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'bills')}">
+
+<body>
+
+<div class="container">
+    <div class="card card-doklad mx-auto mt-5">
+        <div class="card-header">
+            <span th:text="${formTitle}"></span>
+        </div>
+        <div class="card-body">
+            <form th:object="${bill}" method="post">
+                <input type="hidden" name="id" th:value="*{id}" />
+                <input type="hidden" name="type" th:value="*{type}" />
+                <div class="form-group row">
+                    <label for="Sparovano" class="col-sm-3 col-form-label">Spárováno</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" id="Sparovano" name="Sparovano" type="text" th:value="${bill.paired}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Uložit</button>
+            </form>
+                <!--
+
+
+                <div class="form-group row">
+                    <label for="strediskoId" class="col-sm-3 col-form-label">Středisko</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownList("strediskoId", new SelectList(ViewBag.Strediska, "Id", "Nazev"), new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Datum" class="col-sm-3 col-form-label">Datum</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(x => x.Datum, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(x => x.Datum)
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Owner</label>
+                        <div class="col-sm-10">
+                            <span th:text="${pet.owner?.firstName + ' ' + pet.owner?.lastName}" />
+                        </div>
+                    </div>
+                    <input
+                            th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
+                    <input
+                            th:replace="~{fragments/inputField :: input ('Birth Date', 'birthDate', 'date')}" />
+                    <input
+                            th:replace="~{fragments/selectField :: select ('Type', 'type', ${types})}" />
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button
+                                th:with="text=${pet['new']} ? 'Add Pet' : 'Update Pet'"
+                                class="btn btn-default" type="submit" th:text="${text}">Add
+                            Pet</button>
+                    </div>
+                </div>
+            </form>
+            <form>
+                <div class="form-group row">
+                    <label for="Sparovano" class="col-sm-3 col-form-label">Spárováno</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" data-val="true" data-val-length="The field Spárováno must be a string with a maximum length of 25." data-val-length-max="25" data-val-required="The Spárováno field is required." id="Sparovano" name="Sparovano" type="text" value="56465415">
+                        <span class="field-validation-valid" data-valmsg-for="Sparovano" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="strediskoId" class="col-sm-3 col-form-label">Středisko</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="strediskoId" name="strediskoId"><option value="4">Odběratel 1</option>
+                            <option value="5">Odběratel 2</option>
+                            <option value="6">Odběratel 3</option>
+                            <option selected="selected" value="8">Odběratel 4</option>
+                            <option value="10">Odběratel 5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Datum" class="col-sm-3 col-form-label">Datum</label>
+                    <div class="col-sm-9">
+                        <input class="form-control text-box single-line" data-val="true" data-val-date="Pole Datum musí být datum." data-val-required="The Datum field is required." id="Datum" name="Datum" type="date" value="2019-07-24">
+                        <span class="field-validation-valid" data-valmsg-for="Datum" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Uložit</button>
+            </form>
+            -->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
