@@ -20,7 +20,7 @@ public class UnitEntity extends BaseEntity {
     private String type;
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -34,5 +34,10 @@ public class UnitEntity extends BaseEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

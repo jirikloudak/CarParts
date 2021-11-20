@@ -1,6 +1,6 @@
 package cz.uhk.fim.warehouse.price;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PriceRepository extends PagingAndSortingRepository<PriceEntity, Integer> {
+public interface PriceRepository extends JpaRepository<PriceEntity, Integer> {
 }

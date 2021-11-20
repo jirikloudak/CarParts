@@ -15,15 +15,15 @@
             <div class="form-inline text-nowrap">
                 <label class="form-check-label mr-2">Zobrazit:</label>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioDoklady" id="radioVsechny" value="" @(ViewBag.Typ == null ? "checked" : "")>
+                    <input class="form-check-input" type="radio" name="radioDoklady" id="radioVsechny" value="" th:checked="${billType == null}">
                     <label class="form-check-label" for="radioVsechny">Všechny doklady</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioDoklady" id="radioPrijemky" value="P" @(ViewBag.Typ == 'P' ? "checked" : "")>
+                    <input class="form-check-input" type="radio" name="radioDoklady" id="radioPrijemky" value="P" th:checked="${billType == 'P'}">
                     <label class="form-check-label" for="radioPrijemky">Příjemky</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioDoklady" id="radioVydejky" value="V" @(ViewBag.Typ == 'V' ? "checked" : "")>
+                    <input class="form-check-input" type="radio" name="radioDoklady" id="radioVydejky" value="V" th:checked="${billType == 'V'}">
                     <label class="form-check-label" for="radioVydejky">Výdejky</label>
                 </div>
             </div>
@@ -72,9 +72,10 @@
                         <a class="mx-1" th:href="@{/bills/update/{id}(id=${bill.id})}" aria-label="Editovat">
                             <i aria-hidden="true" class="fas fa-fw fa-edit"></i>
                         </a>
-                            <a class="mx-1" th:href="@{/bills/delete/{id}(id=${bill.id})}" aria-label="Smazat" onclick="return confirm('@string.Format("Přejete si opravdu smazat doklad {0}{1}?", d.Typ, d.Id)');">
+                            <a class="mx-1" th:href="@{/bills/delete/{id}(id=${bill.id})}" aria-label="Smazat"
+                               th:attr="onclick=|return confirm('Přejete si opravdu smazat doklad ${bill.type}${bill.id}?')|">
                         <i aria-hidden="true" class="fas fa-fw fa-trash"></i>
-                        </a>
+                            </a>
                     </td>
                 </tr>
                 </tbody>

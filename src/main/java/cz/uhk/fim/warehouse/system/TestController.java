@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 class TestController {
+
     @GetMapping("/")
-    public String welcome() {return "welcome";}
+    public String welcome() {
+        return "welcome";
+    }
 }

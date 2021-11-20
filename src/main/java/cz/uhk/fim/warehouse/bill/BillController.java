@@ -1,23 +1,32 @@
 package cz.uhk.fim.warehouse.bill;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import cz.uhk.fim.warehouse.unit.UnitEntity;
+import cz.uhk.fim.warehouse.unit.UnitServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class BillController {
 
-    @Autowired
-    private BillService billService;
+    private final BillServiceImpl billService;
+
+    private final UnitServiceImpl unitService;
 
     private static final String VIEW_BILL_FORM = "bills/createOrUpdateBill";
+
+    public BillController(BillServiceImpl billService, UnitServiceImpl unitService) {
+        this.billService = billService;
+        this.unitService = unitService;
+    }
 
     @GetMapping("/bills")
     public String viewList(Model model) {
@@ -33,26 +42,30 @@ public class BillController {
         } else if (type == 'V') {
             formTitle = "Vytvoření výdejky";
         }
+        List<UnitEntity> units = unitService.getUnitsByType(type);
         model.addAttribute("formTitle", formTitle);
         model.addAttribute("bill", bill);
+        model.addAttribute("units", units);
         return VIEW_BILL_FORM;
     }
 
     @GetMapping("/bills/update/{id}")
     public String updateForm(@PathVariable(value = "id") Integer id, Model model) {
         BillEntity bill = billService.getBillById(id);
+        List<UnitEntity> units = unitService.getUnitsByType(bill.getType());
         model.addAttribute("formTitle", "Editace dokladu " + bill.getType() + bill.getId());
         model.addAttribute("bill", bill);
+        model.addAttribute("units", units);
         return VIEW_BILL_FORM;
     }
 
     @PostMapping("/bills/save")
-    public String saveEntity(@ModelAttribute("bill") BillEntity bill) {
+    public String saveEntity(@Valid BillEntity bill, BindingResult result, Model model) {
         billService.saveBill(bill);
         return "redirect:/bills";
     }
 
-   @GetMapping("/deleteBill/{id}")
+   @GetMapping("/bills/delete/{id}")
     public String deleteEntity(@PathVariable (value = "id") Integer id) {
         billService.deleteBillById(id);
         return "redirect:/bills";

@@ -1,6 +1,6 @@
 package cz.uhk.fim.warehouse.movement;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MovementRepository extends PagingAndSortingRepository<MovementEntity, Integer> {
+public interface MovementRepository extends JpaRepository<MovementEntity, Integer> {
 }
