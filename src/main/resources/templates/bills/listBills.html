@@ -67,7 +67,7 @@
                     <td th:text="${bill.type} + ${bill.id}"></td>
                     <td th:text="${bill.paired}"></td>
                     <td th:text="${bill.unit.name}"></td>
-                    <td th:text="${#calendars.format(bill.billDate, 'dd.MM.yyyy')}"></td>
+                    <td th:text="${#temporals.format(bill.billDate, 'dd.MM.yyyy')}"></td>
                     <td>
                         <a class="mx-1" th:href="@{/bills/update/{id}(id=${bill.id})}" aria-label="Editovat">
                             <i aria-hidden="true" class="fas fa-fw fa-edit"></i>

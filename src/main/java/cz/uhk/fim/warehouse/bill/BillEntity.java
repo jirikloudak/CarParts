@@ -2,21 +2,22 @@ package cz.uhk.fim.warehouse.bill;
 
 import cz.uhk.fim.warehouse.model.BaseEntity;
 import cz.uhk.fim.warehouse.unit.UnitEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.sql.Date;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "bill", schema = "warehouse")
 public class BillEntity extends BaseEntity {
 
     @Column(name = "type", nullable = false)
-    @NotEmpty
+    //@NotEmpty
     private Character type;
 
     @Column(name = "paired", nullable = false, length = 25)
-    @NotEmpty
+    @Size(min = 3, max = 25, message = "Pole musí obsahovat 3-25 znaků")
     private String paired;
 
     @ManyToOne
@@ -24,14 +25,16 @@ public class BillEntity extends BaseEntity {
     private UnitEntity unit;
 
     @Column(name = "bill_date", nullable = false)
-    @NotEmpty
-    private Date billDate;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private LocalDate billDate;
 
     public BillEntity() {
+
     }
 
-    public BillEntity(Character type) {
+    public BillEntity(Character type, LocalDate billDate) {
         this.type = type;
+        this.billDate = billDate;
     }
 
     public Character getType() {
@@ -58,11 +61,11 @@ public class BillEntity extends BaseEntity {
         this.unit = unit;
     }
 
-    public Date getBillDate() {
+    public LocalDate getBillDate() {
         return this.billDate;
     }
 
-    public void setBillDate(Date billDate) {
+    public void setBillDate(LocalDate billDate) {
         this.billDate = billDate;
     }
 }

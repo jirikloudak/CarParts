@@ -5,18 +5,18 @@ import cz.uhk.fim.warehouse.price.PriceEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "part", schema = "warehouse")
 public class PartEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false, length = 50)
-    @NotEmpty
+    @Size(min = 2, max = 50, message = "Pole musí obsahovat 2-50 znaků")
     private String name;
 
     @Column(name = "code", nullable = false, length = 20)
-    @NotEmpty
+    @Size(min = 1, max = 20, message = "Pole musí obsahovat 2-20 znaků")
     private String code;
 
     @ManyToOne
@@ -27,7 +27,6 @@ public class PartEntity extends BaseEntity {
     private Integer qty;
 
     @Column(name = "min", nullable = false)
-    @NotEmpty
     @Min(value = 0, message = "Minimum musí být nezáporné")
     private Integer min;
 
@@ -69,5 +68,10 @@ public class PartEntity extends BaseEntity {
 
     public void setMin(Integer min) {
         this.min = min;
+    }
+
+    @Override
+    public String toString() {
+        return this.code;
     }
 }

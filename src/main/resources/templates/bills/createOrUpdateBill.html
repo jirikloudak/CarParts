@@ -11,13 +11,13 @@
             <span th:text="${formTitle}"></span>
         </div>
         <div class="card-body">
-            <form th:action="@{/bills/save}" th:object="${bill}" method="post">
-                <input type="hidden" name="id" th:value="*{id}" />
-                <input type="hidden" name="type" th:value="*{type}" />
+            <form th:action="@{/bills/save}" th:object="${billEntity}" method="post">
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="type" th:value="*{type}"/>
                 <div class="form-group has-feedback">
-                    <input th:replace="~{fragments/inputField :: input ('Spárovano', 'paired', 'text')}" />
-                    <input th:replace="~{fragments/selectField :: select ('Středisko', 'unit', ${units})}" />
-                    <input th:replace="~{fragments/inputField :: input ('Datum', 'billDate', 'date')}" />
+                    <input th:replace="~{fragments/inputField :: input ('Spárovano', 'paired', 'text')}"/>
+                    <input th:replace="~{fragments/selectField :: select ('Středisko', 'unit', ${units})}"/>
+                    <input th:replace="~{fragments/inputField :: input ('Datum', 'billDate', 'date')}"/>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Uložit</button>
             </form>

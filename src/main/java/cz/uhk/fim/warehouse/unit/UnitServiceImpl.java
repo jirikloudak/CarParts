@@ -1,5 +1,10 @@
 package cz.uhk.fim.warehouse.unit;
 
+import cz.uhk.fim.warehouse.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +18,42 @@ public class UnitServiceImpl implements UnitService{
         this.unitRepository = unitRepository;
     }
 
-    public List<UnitEntity> getAllUnits(){
-        return unitRepository.findAll();
+    @Override
+    public void saveUnit(UnitEntity unit) {
+        unitRepository.save(unit);
     }
 
-    public List<UnitEntity> getUnitsByType(Character type) {
-        return unitRepository.findUnitsByType(type.toString());
+    @Override
+    public UnitEntity getUnitById(Integer id) {
+        return unitRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Unit", "Id", id));
+    }
+
+    @Override
+    public void deleteUnitById(Integer id) {
+        unitRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Unit", "Id", id));
+        unitRepository.deleteById(id);
+    }
+
+    @Override
+    public List<UnitEntity> findByType(Character type) {
+        return unitRepository.findByTypeOrderByName(type.toString());
+    }
+
+    @Override
+    public Page<UnitEntity> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return unitRepository.findAllByOrderByTypeAscNameAsc(pageable);
+    }
+
+    @Override
+    public Page<UnitEntity> findByName(String name, int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return unitRepository.findByNameContainingOrderByTypeAscNameAsc(name, pageable);
     }
 }

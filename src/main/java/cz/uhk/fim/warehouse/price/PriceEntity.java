@@ -13,18 +13,15 @@ import java.math.BigDecimal;
 public class PriceEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false, length = 6)
-    @NotEmpty
-    @Pattern(regexp = "^\\d\\d[A-Za-z]$", message = "Cenová skupina se musí skládat ze dvou číslic a písmena, např. \"12B\"")
+    @Pattern(regexp = "^\\d\\d[A-Za-z]$", message = "Musí se skládat ze dvou číslic a písmena, např. \"12B\"")
     private String name;
 
     @Column(name = "purchase", nullable = false, precision = 2)
-    @NotEmpty
-    @Min(value = 0, message = "Nákupní cena musí být nezáporná")
+    @Min(value = 0, message = "Cena musí být nezáporná")
     private BigDecimal purchase;
 
     @Column(name = "sale", nullable = false, precision = 2)
-    @NotEmpty
-    @Min(value = 0, message = "Prodejní cena musí být nezáporná")
+    @Min(value = 0, message = "Cena musí být nezáporná")
     private BigDecimal sale;
 
     public String getName() {
@@ -49,5 +46,10 @@ public class PriceEntity extends BaseEntity {
 
     public void setSale(BigDecimal sale) {
         this.sale = sale;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

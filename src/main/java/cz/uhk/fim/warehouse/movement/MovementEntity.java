@@ -21,7 +21,6 @@ public class MovementEntity extends BaseEntity {
     private PartEntity part;
 
     @Column(name = "qty", nullable = false)
-    @NotEmpty
     @Min(value = 1, message = "Počet kusů musí být kladný")
     private Integer qty;
 

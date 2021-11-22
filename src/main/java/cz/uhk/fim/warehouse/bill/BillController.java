@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -35,34 +37,49 @@ public class BillController {
 
     @GetMapping("/bills/create")
     public String createForm(@RequestParam Character type, Model model) {
-        BillEntity bill = new BillEntity(type);
+        BillEntity billEntity = new BillEntity(type, LocalDate.now());
         String formTitle = null;
         if (type == 'P') {
             formTitle = "Vytvoření příjemky";
         } else if (type == 'V') {
             formTitle = "Vytvoření výdejky";
         }
-        List<UnitEntity> units = unitService.getUnitsByType(type);
+        List<UnitEntity> units = unitService.findByType(type);
         model.addAttribute("formTitle", formTitle);
-        model.addAttribute("bill", bill);
+        model.addAttribute("billEntity", billEntity);
         model.addAttribute("units", units);
         return VIEW_BILL_FORM;
     }
 
     @GetMapping("/bills/update/{id}")
     public String updateForm(@PathVariable(value = "id") Integer id, Model model) {
-        BillEntity bill = billService.getBillById(id);
-        List<UnitEntity> units = unitService.getUnitsByType(bill.getType());
-        model.addAttribute("formTitle", "Editace dokladu " + bill.getType() + bill.getId());
-        model.addAttribute("bill", bill);
+        BillEntity billEntity = billService.getBillById(id);
+        List<UnitEntity> units = unitService.findByType(billEntity.getType());
+        model.addAttribute("formTitle", "Editace dokladu " + billEntity.getType() + billEntity.getId());
+        model.addAttribute("billEntity", billEntity);
         model.addAttribute("units", units);
         return VIEW_BILL_FORM;
     }
 
     @PostMapping("/bills/save")
-    public String saveEntity(@Valid BillEntity bill, BindingResult result, Model model) {
-        billService.saveBill(bill);
-        return "redirect:/bills";
+    public String saveEntity(@Valid BillEntity billEntity, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            String formTitle;
+            if (billEntity.getId() == null && billEntity.getType() == 'P') {
+                formTitle = "Vytvoření příjemky";
+            } else if (billEntity.getId() == null && billEntity.getType() == 'V') {
+                formTitle = "Vytvoření výdejky";
+            } else {
+                formTitle = "Editace dokladu " + billEntity.getType() + billEntity.getId();
+            }
+            List<UnitEntity> units = unitService.findByType(billEntity.getType());
+            model.addAttribute("formTitle", formTitle);
+            model.addAttribute("units", units);
+            return VIEW_BILL_FORM;
+        } else {
+            billService.saveBill(billEntity);
+            return "redirect:/bills";
+        }
     }
 
    @GetMapping("/bills/delete/{id}")

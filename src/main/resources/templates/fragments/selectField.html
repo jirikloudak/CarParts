@@ -1,27 +1,23 @@
 <html>
 <body>
-  <form>
+<form>
     <th:block th:fragment="select (label, name, items)">
-      <div th:with="valid=${!#fields.hasErrors(name)}" th:class="${'form-group row' + (valid ? '' : ' has-error')}"
-        class="form-group row">
-        <label class="col-sm-3 control-label" th:text="${label}">Label</label>
-        <div class="col-sm-9">
-          <select class="form-control" th:field="*{__${name}__}">
-            <option th:each="item : ${items}" th:value="${item.id}"
-              th:text="${item}"></option>
-          </select>
-          <span th:if="${valid}"
-            class="fa fa-check form-control-feedback"
-            aria-hidden="true"></span>
-          <th:block th:if="${!valid}">
-            <span
-              class="fa fa-remove form-control-feedback"
-              aria-hidden="true"></span>
-            <span class="help-inline" th:errors="*{__${name}__}">Error</span>
-          </th:block>
+        <div th:with="valid=${!#fields.hasErrors(name)}" th:class="${'form-group row' + (valid ? '' : ' has-error')}"
+             class="form-group row">
+            <label class="col-sm-3 control-label" th:text="${label}">Label</label>
+            <div class="col-sm-9">
+                <select class="form-control" th:field="*{__${name}__}"
+                        th:classappend="${valid ? 'valid' : 'input-validation-error'}">
+                    <option th:each="item : ${items}" th:value="${item.id}"
+                            th:text="${item}"></option>
+                </select>
+                <th:block th:if="${!valid}">
+                    <span class="fa fa-exclamation-triangle form-control-feedback" aria-hidden="true"></span>
+                    <span class="help-inline" th:errors="*{__${name}__}">Error</span>
+                </th:block>
+            </div>
         </div>
-      </div>
     </th:block>
-  </form>
+</form>
 </body>
 </html>

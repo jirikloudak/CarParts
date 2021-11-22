@@ -19,11 +19,6 @@ public class BillServiceImpl implements BillService{
     }
 
     @Override
-    public List<BillEntity> getAllBills(){
-        return billRepository.findAll();
-    }
-
-    @Override
     public void saveBill(BillEntity bill){
         billRepository.save(bill);
     }
@@ -45,8 +40,23 @@ public class BillServiceImpl implements BillService{
     public Page<BillEntity> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
-
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.billRepository.findAll(pageable);
+        return this.billRepository.findAllByOrderByIdAsc(pageable);
+    }
+
+    @Override
+    public Page<BillEntity> findByType(Character type, int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.billRepository.findByTypeOrderByIdAsc(type, pageable);
+    }
+
+    @Override
+    public Page<BillEntity> findById(Integer id, int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.billRepository.findByIdOrderByIdAsc(id, pageable);
     }
 }
