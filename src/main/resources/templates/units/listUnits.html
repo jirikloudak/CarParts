@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'units')}">
+
+<body>
+<!-- DataTable Ceny -->
+<div class="card">
+    <div class="card-header">
+        <div class="form-inline">
+            <i class="fas fa-fw fa-building mr-1"></i>
+            <span class="mr-3">Střediska</span>
+            <a class="btn btn-primary input-group mr-3 my-1" href="/units/create">Nové středisko</a>
+            <form action="/units/search" class="input-group ml-auto mr-0" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dynamicContent" id="form0" method="post">
+                <input type="text" class="form-control ui-autocomplete-input" placeholder="Název..." aria-label="Search" aria-describedby="basic-addon2" id="searchBox" name="search" autocomplete="off">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="units" class="table table-bordered table-striped table-sm table-responsive-lg">
+                <thead class="thead-dark">
+                <tr>
+                    <th>
+                        <a th:href="@{'/units/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
+                            Název</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/units/page/' + ${currentPage} + '?sortField=type&sortDir=' + ${reverseSortDir}}">
+                            Typ</a>
+                    </th>
+                    <th>Akce</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="unit : ${listUnits}">
+                    <td th:text="${unit.name} + ${unit.id}"></td>
+                    <td th:text="${unit.type}"></td>
+                    <td>
+                        <a class="mx-1" th:href="@{/units/update/{id}(id=${unit.id})}" aria-label="Editovat">
+                            <i aria-hidden="true" class="fas fa-fw fa-edit"></i>
+                        </a>
+                            <a class="mx-1" th:href="@{/units/delete/{id}(id=${unit.id})}" aria-label="Smazat"
+                               th:attr="onclick=|return confirm('Přejete si opravdu smazat doklad ${unit.name}${unit.id}?')|">
+                        <i aria-hidden="true" class="fas fa-fw fa-trash"></i>
+                            </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pages" th:if="${totalPages > 1}">
+            <span>Pages:</span>
+            <span>[</span>
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+              <a th:if="${currentPage != i}" th:href="@{'/units/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+              <span th:unless="${currentPage != i}">[[${i}]]</span>
+            </span>
+            <span>]&nbsp;</span>
+            <span>
+              <a th:if="${currentPage > 1}" th:href="@{'/units/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="První"
+                 class="fas fa-angle-double-left"></a>
+              <span th:unless="${currentPage > 1}" title="First" class="fas fa-angle-double-left"></span>
+            </span>
+            <span>
+              <a th:if="${currentPage > 1}" th:href="@{'/units/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="Předchozí"
+                 class="fas fa-angle-left"></a>
+              <span th:unless="${currentPage > 1}" title="Previous" class="fas fa-angle-left"></span>
+            </span>
+            <span>
+              <a th:if="${currentPage < totalPages}" th:href="@{'/units/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="Další"
+                 class="fas fa-angle-right"></a>
+              <span th:unless="${currentPage < totalPages}" title="Next" class="fas fa-angle-right"></span>
+            </span>
+            <span>
+              <a th:if="${currentPage < totalPages}" th:href="@{'/units/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="Poslední"
+                 class="fas fa-angle-double-right"></a>
+              <span th:unless="${currentPage < totalPages}" title="Last" class="fas fa-angle-double-right"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
