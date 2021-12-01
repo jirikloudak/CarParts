@@ -29,6 +29,10 @@
                 <tr>
                     <th>
                         <a th:href="@{'/parts/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
+                            Id</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/parts/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">
                             Název</a>
                     </th>
                     <th>
@@ -52,7 +56,8 @@
                 </thead>
                 <tbody>
                 <tr th:each="part : ${listParts}">
-                    <td th:text="${part.name} + ${part.id}"></td>
+                    <td th:text="${part.id}"></td>
+                    <td th:text="${part.name}"></td>
                     <td th:text="${part.code}"></td>
                     <td th:text="${part.price.name}"></td>
                     <td th:text="${part.qty}"></td>

@@ -30,6 +30,10 @@ public class PartEntity extends BaseEntity {
     @Min(value = 0, message = "Minimum musí být nezáporné")
     private Integer min;
 
+    public PartEntity (){
+
+    }
+
     public String getName() {
         return name;
     }

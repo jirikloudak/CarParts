@@ -19,6 +19,14 @@ public class UnitEntity extends BaseEntity {
     @Size(min = 1, max = 1)
     private String type;
 
+    public UnitEntity (){
+
+    }
+
+    public UnitEntity (String type){
+        this.type = type;
+    }
+
     public String getName() {
         return this.name;
     }

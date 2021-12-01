@@ -24,6 +24,10 @@ public class PriceEntity extends BaseEntity {
     @Min(value = 0, message = "Cena musí být nezáporná")
     private BigDecimal sale;
 
+    public PriceEntity (){
+
+    }
+
     public String getName() {
         return name;
     }

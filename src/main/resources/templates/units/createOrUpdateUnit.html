@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'units')}">
+
+<body>
+
+<div class="container">
+    <div class="card card-doklad mx-auto mt-5">
+        <div class="card-header">
+            <span th:text="${formTitle}"></span>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/units/save}" th:object="${unitEntity}" method="post">
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="type" th:value="*{type}"/>
+                <div class="form-group has-feedback">
+                    <input th:replace="~{fragments/inputField :: input ('Název', 'name', 'text')}"/>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Uložit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -4,13 +4,29 @@
       th:replace="~{fragments/layout :: layout (~{::body},'units')}">
 
 <body>
-<!-- DataTable Ceny -->
+<!-- DataTable Strediska -->
 <div class="card">
     <div class="card-header">
         <div class="form-inline">
             <i class="fas fa-fw fa-building mr-1"></i>
             <span class="mr-3">Střediska</span>
-            <a class="btn btn-primary input-group mr-3 my-1" href="/units/create">Nové středisko</a>
+            <a class="btn btn-primary input-group mr-3 my-1" href="/units/create?type=P">Nový dodavatel</a>
+            <a class="btn btn-primary input-group mr-3 my-1" href="/units/create?type=V">Nový odběratel</a>
+            <div class="form-inline text-nowrap">
+                <label class="form-check-label mr-2">Zobrazit:</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="radioStrediska" id="radioVsechny" value="" th:checked="${unitType == null}">
+                    <label class="form-check-label" for="radioVsechny">Všechny střediska</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="radioStrediska" id="radioDodavatele" value="P" th:checked="${unitType == 'P'}">
+                    <label class="form-check-label" for="radioDodavatele">Dodavatelé</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="radioStrediska" id="radioOdberatele" value="V" th:checked="${unitType == 'V'}">
+                    <label class="form-check-label" for="radioOdberatele">Odběratelé</label>
+                </div>
+            </div>
             <form action="/units/search" class="input-group ml-auto mr-0" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dynamicContent" id="form0" method="post">
                 <input type="text" class="form-control ui-autocomplete-input" placeholder="Název..." aria-label="Search" aria-describedby="basic-addon2" id="searchBox" name="search" autocomplete="off">
                 <div class="input-group-append">
@@ -29,6 +45,10 @@
                 <tr>
                     <th>
                         <a th:href="@{'/units/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
+                            Id</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/units/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">
                             Název</a>
                     </th>
                     <th>
@@ -40,7 +60,8 @@
                 </thead>
                 <tbody>
                 <tr th:each="unit : ${listUnits}">
-                    <td th:text="${unit.name} + ${unit.id}"></td>
+                    <td th:text="${unit.id}"></td>
+                    <td th:text="${unit.name}"></td>
                     <td th:text="${unit.type}"></td>
                     <td>
                         <a class="mx-1" th:href="@{/units/update/{id}(id=${unit.id})}" aria-label="Editovat">
