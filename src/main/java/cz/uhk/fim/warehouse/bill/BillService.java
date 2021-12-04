@@ -2,8 +2,6 @@ package cz.uhk.fim.warehouse.bill;
 
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface BillService {
     void saveBill(BillEntity bill);
     BillEntity getBillById(Integer id);

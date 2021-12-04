@@ -2,6 +2,7 @@ package cz.uhk.fim.warehouse.bill;
 
 import cz.uhk.fim.warehouse.unit.UnitEntity;
 import cz.uhk.fim.warehouse.unit.UnitServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,22 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 public class BillController {
 
-    private final BillServiceImpl billService;
+    @Autowired
+    private BillServiceImpl billService;
 
-    private final UnitServiceImpl unitService;
+    @Autowired
+    private UnitServiceImpl unitService;
 
     private static final String VIEW_BILL_FORM = "bills/createOrUpdateBill";
-
-    public BillController(BillServiceImpl billService, UnitServiceImpl unitService) {
-        this.billService = billService;
-        this.unitService = unitService;
-    }
 
     @GetMapping("/bills")
     public String viewList(Model model) {

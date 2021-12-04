@@ -1,9 +1,8 @@
 package cz.uhk.fim.warehouse.part;
 
-import cz.uhk.fim.warehouse.bill.BillEntity;
 import cz.uhk.fim.warehouse.price.PriceEntity;
 import cz.uhk.fim.warehouse.price.PriceServiceImpl;
-import cz.uhk.fim.warehouse.unit.UnitEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,21 +13,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 class PartController {
-    private final PartServiceImpl partService;
 
-    private final PriceServiceImpl priceService;
+    @Autowired
+    private PartServiceImpl partService;
+
+    @Autowired
+    private PriceServiceImpl priceService;
 
     private static final String VIEW_PART_FORM = "parts/createOrUpdatePart";
-
-    public PartController(PartServiceImpl partService, PriceServiceImpl priceService) {
-        this.partService = partService;
-        this.priceService = priceService;
-    }
 
     @GetMapping("/parts")
     public String viewList(Model model) {

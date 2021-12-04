@@ -1,6 +1,7 @@
 package cz.uhk.fim.warehouse.price;
 
 import cz.uhk.fim.warehouse.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +13,8 @@ import java.util.List;
 @Service
 public class PriceServiceImpl implements PriceService {
 
-    private final PriceRepository priceRepository;
-
-    public PriceServiceImpl(PriceRepository priceRepository) {
-        this.priceRepository = priceRepository;
-    }
+    @Autowired
+    private PriceRepository priceRepository;
 
     @Override
     public void savePrice(PriceEntity price) {
@@ -46,7 +44,7 @@ public class PriceServiceImpl implements PriceService {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return priceRepository.findAllByOrderByNameAsc(pageable);
+        return priceRepository.findAll(pageable);
     }
 
     @Override
@@ -54,6 +52,6 @@ public class PriceServiceImpl implements PriceService {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return priceRepository.findByNameContainingOrderByName(name, pageable);
+        return priceRepository.findByNameContaining(name, pageable);
     }
 }

@@ -1,6 +1,7 @@
 package cz.uhk.fim.warehouse.unit;
 
 import cz.uhk.fim.warehouse.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +13,8 @@ import java.util.List;
 @Service
 public class UnitServiceImpl implements UnitService{
 
-    private final UnitRepository unitRepository;
-
-    public UnitServiceImpl(UnitRepository unitRepository) {
-        this.unitRepository = unitRepository;
-    }
+    @Autowired
+    private UnitRepository unitRepository;
 
     @Override
     public void saveUnit(UnitEntity unit) {
@@ -38,7 +36,7 @@ public class UnitServiceImpl implements UnitService{
 
     @Override
     public List<UnitEntity> findByType(Character type) {
-        return unitRepository.findByTypeOrderByName(type.toString());
+        return unitRepository.findByTypeOrderByName(type);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class UnitServiceImpl implements UnitService{
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return unitRepository.findAllByOrderByTypeAscNameAsc(pageable);
+        return unitRepository.findAll(pageable);
     }
 
     @Override
@@ -54,6 +52,6 @@ public class UnitServiceImpl implements UnitService{
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return unitRepository.findByNameContainingOrderByTypeAscNameAsc(name, pageable);
+        return unitRepository.findByNameContaining(name, pageable);
     }
 }

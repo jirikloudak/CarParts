@@ -5,6 +5,7 @@ import cz.uhk.fim.warehouse.model.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -16,14 +17,14 @@ public class UnitEntity extends BaseEntity {
     private String name;
 
     @Column(name = "type", nullable = false, length = 1)
-    @Size(min = 1, max = 1)
-    private String type;
+    //@NotEmpty
+    private Character type;
 
     public UnitEntity (){
 
     }
 
-    public UnitEntity (String type){
+    public UnitEntity (Character type){
         this.type = type;
     }
 
@@ -35,11 +36,11 @@ public class UnitEntity extends BaseEntity {
         this.name = name;
     }
 
-    public String getType() {
+    public Character getType() {
         return this.type;
     }
 
-    public void setType(String type) {
+    public void setType(Character type) {
         this.type = type;
     }
 

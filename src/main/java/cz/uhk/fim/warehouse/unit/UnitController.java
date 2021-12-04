@@ -1,6 +1,6 @@
 package cz.uhk.fim.warehouse.unit;
 
-import cz.uhk.fim.warehouse.bill.BillEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,18 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 public class UnitController {
-    private final UnitServiceImpl unitService;
+
+    @Autowired
+    private UnitServiceImpl unitService;
 
     private static final String VIEW_UNIT_FORM = "units/createOrUpdateUnit";
-
-    public UnitController(UnitServiceImpl unitService) {
-        this.unitService = unitService;
-    }
 
     @GetMapping("/units")
     public String viewList (Model model) {return findPaginated(1,"id", "asc", model);}
@@ -64,12 +61,12 @@ public class UnitController {
     }
 
     @GetMapping("/units/create")
-    public String createForm(@RequestParam String type, Model model) {
+    public String createForm(@RequestParam Character type, Model model) {
         UnitEntity unitEntity = new UnitEntity(type);
         String formTitle = null;
-        if (type == "P") {
+        if (type == 'P') {
             formTitle = "Vytvoření dodavatele";
-        } else if (type == "V") {
+        } else if (type == 'V') {
             formTitle = "Vytvoření odběratele";
         }
         model.addAttribute("formTitle", formTitle);
@@ -81,9 +78,9 @@ public class UnitController {
     public String saveEntity(@Valid UnitEntity unitEntity, BindingResult result, Model model) {
         if (result.hasErrors()) {
             String formTitle;
-            if (unitEntity.getId() == null && unitEntity.getType() == "P") {
+            if (unitEntity.getId() == null && unitEntity.getType() == 'P') {
                 formTitle = "Vytvoření dodavatele";
-            } else if (unitEntity.getId() == null && unitEntity.getType() == "V") {
+            } else if (unitEntity.getId() == null && unitEntity.getType() == 'V') {
                 formTitle = "Vytvoření odběratele";
             } else {
                 formTitle = "Editace střediska " + unitEntity.getType() + unitEntity.getId();

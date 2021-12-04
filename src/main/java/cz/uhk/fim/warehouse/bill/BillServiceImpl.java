@@ -1,22 +1,18 @@
 package cz.uhk.fim.warehouse.bill;
 
 import cz.uhk.fim.warehouse.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class BillServiceImpl implements BillService{
 
-    private final BillRepository billRepository;
-
-    public BillServiceImpl(BillRepository billRepository) {
-        this.billRepository = billRepository;
-    }
+    @Autowired
+    private BillRepository billRepository;
 
     @Override
     public void saveBill(BillEntity bill){
@@ -41,7 +37,7 @@ public class BillServiceImpl implements BillService{
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.billRepository.findAllByOrderByIdAsc(pageable);
+        return this.billRepository.findAll(pageable);
     }
 
     @Override
@@ -49,7 +45,7 @@ public class BillServiceImpl implements BillService{
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.billRepository.findByTypeOrderByIdAsc(type, pageable);
+        return this.billRepository.findByType(type, pageable);
     }
 
     @Override
@@ -57,6 +53,6 @@ public class BillServiceImpl implements BillService{
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.billRepository.findByIdOrderByIdAsc(id, pageable);
+        return this.billRepository.findById(id, pageable);
     }
 }

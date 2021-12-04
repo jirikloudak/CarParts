@@ -1,7 +1,6 @@
 package cz.uhk.fim.warehouse.part;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

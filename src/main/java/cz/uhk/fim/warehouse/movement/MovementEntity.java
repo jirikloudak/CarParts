@@ -24,6 +24,9 @@ public class MovementEntity extends BaseEntity {
     @Min(value = 1, message = "Počet kusů musí být kladný")
     private Integer qty;
 
+    public MovementEntity() {
+    }
+
     public BillEntity getBill() {
         return this.bill;
     }

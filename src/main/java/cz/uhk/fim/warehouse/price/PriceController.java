@@ -1,6 +1,6 @@
 package cz.uhk.fim.warehouse.price;
 
-import cz.uhk.fim.warehouse.part.PartEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +16,10 @@ import java.util.List;
 @Controller
 public class PriceController {
 
-    private final PriceServiceImpl priceService;
+    @Autowired
+    private PriceServiceImpl priceService;
 
     private static final String VIEW_PRICE_FORM = "prices/createOrUpdatePrice";
-
-    public PriceController(PriceServiceImpl priceService) {
-        this.priceService = priceService;
-    }
 
     @GetMapping("/prices")
     public String viewList(Model model) {
