@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 class PartController {
@@ -26,25 +27,35 @@ class PartController {
 
     private static final String VIEW_PART_FORM = "parts/createOrUpdatePart";
 
-    @GetMapping("/parts")
+    @GetMapping("/")
     public String viewList(Model model) {
-        return findPaginated(1, "id", "asc", model);
+        return findPaginated(1, "id", "asc", null, false, model);
     }
 
     @GetMapping("/parts/delete/{id}")
     public String deleteEntity(@PathVariable(value = "id") Integer id) {
         partService.deletePart(id);
-        return "redirect:/parts";
+        return "redirect:/";
     }
 
     @GetMapping("/parts/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
-                                @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDir") String sortDir,
+    public String findPaginated(@PathVariable(name = "pageNo") int pageNo,
+                                @RequestParam(name = "sortField", defaultValue = "id") String sortField,
+                                @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir,
+                                @RequestParam(name = "search", required = false) String search,
+                                @RequestParam(name = "order", required = false) boolean order,
                                 Model model) {
         int pageSize = 9;
 
-        Page<PartEntity> page = partService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        Page<PartEntity> page;
+        if (search != null)
+        {
+            page = partService.findByCodeOrName(search, pageNo, pageSize, sortField, sortDir);
+        } else if (order) {
+            page = partService.findPartsToOrder(pageNo, pageSize, sortField, sortDir);
+        } else {
+            page = partService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        }
         List<PartEntity> listParts = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -55,6 +66,8 @@ class PartController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
+        model.addAttribute("search", search);
+        model.addAttribute("order", order);
         model.addAttribute("listParts", listParts);
         return "/parts/listParts";
     }
@@ -80,7 +93,7 @@ class PartController {
             return VIEW_PART_FORM;
         } else {
             partService.savePart(partEntity);
-            return "redirect:/parts";
+            return "redirect:/";
         }
     }
 
@@ -94,5 +107,4 @@ class PartController {
         model.addAttribute("prices", prices);
         return VIEW_PART_FORM;
     }
-
 }

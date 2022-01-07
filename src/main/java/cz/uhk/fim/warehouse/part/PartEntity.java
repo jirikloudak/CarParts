@@ -76,6 +76,6 @@ public class PartEntity extends BaseEntity {
 
     @Override
     public String toString() {
-        return this.code;
+        return this.code + ": " + this.name;
     }
 }

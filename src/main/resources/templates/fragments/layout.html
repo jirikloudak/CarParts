@@ -40,7 +40,7 @@
     </ul>
 
     <ul class="sidebar navbar-nav">
-      <li th:replace="::menuItem ('/','home','home','Domů')">
+      <li th:replace="::menuItem ('/','parts','car','Náhradní díly')">
         <a class="nav-link" href="/">
           <i class="fas fa-fw fa-home"></i>
           <span>Náhradní díly</span>
@@ -48,12 +48,6 @@
       </li>
       <li th:replace="::menuItem ('/bills','bills','book','Doklady')">
         <a class="nav-link" href="/Bills">
-          <i class="fas fa-fw fa-book"></i>
-          <span>Doklady</span>
-        </a>
-      </li>
-      <li th:replace="::menuItem ('/parts','parts','car','Díly')">
-        <a class="nav-link" href="/Parts">
           <i class="fas fa-fw fa-book"></i>
           <span>Doklady</span>
         </a>

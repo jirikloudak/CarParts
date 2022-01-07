@@ -1,5 +1,6 @@
 package cz.uhk.fim.warehouse.price;
 
+import cz.uhk.fim.warehouse.part.PartEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class PriceController {
 
     @GetMapping("/prices")
     public String viewList(Model model) {
-        return findPaginated(1, "id", "asc", model);
+        return findPaginated(1, "id", "asc", null, model);
     }
 
     @GetMapping("/prices/delete/{id}")
@@ -33,13 +34,20 @@ public class PriceController {
     }
 
     @GetMapping("/prices/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
-                                @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDir") String sortDir,
+    public String findPaginated(@PathVariable(name = "pageNo") int pageNo,
+                                @RequestParam(name = "sortField", defaultValue = "id") String sortField,
+                                @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir,
+                                @RequestParam(name = "search", required = false) String search,
                                 Model model) {
         int pageSize = 9;
 
-        Page<PriceEntity> page = priceService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        Page<PriceEntity> page;
+        if (search != null)
+        {
+            page = priceService.findByName(search, pageNo, pageSize, sortField, sortDir);
+        } else {
+            page = priceService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        }
         List<PriceEntity> listPrices = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -50,6 +58,7 @@ public class PriceController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
+        model.addAttribute("search", search);
         model.addAttribute("listPrices", listPrices);
         return "/prices/listPrices";
     }

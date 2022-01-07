@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 
 <html xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout (~{::body},'units')}">
+      th:replace="~{fragments/layout :: layout (~{::body},'movements')}">
 
 <body>
 
 <div class="container">
-    <div class="card card-stredisko mx-auto mt-5">
+    <div class="card card-pohyb mx-auto mt-5">
         <div class="card-header">
             <span th:text="${formTitle}"></span>
         </div>
         <div class="card-body">
-            <form th:action="@{/units/save}" th:object="${unitEntity}" method="post">
+            <form th:action="@{/movements/save}" th:object="${movementEntity}" method="post">
                 <input type="hidden" name="id" th:value="*{id}"/>
-                <input type="hidden" name="type" th:value="*{type}"/>
+                <input type="hidden" name="bill" th:value="*{bill.id}"/>
                 <div class="form-group has-feedback">
-                    <input th:replace="~{fragments/inputField :: input ('Název', 'name', 'text')}"/>
+                    <input th:replace="~{fragments/selectField :: select ('Díl', 'part', ${parts})}"/>
+                    <input th:replace="~{fragments/inputField :: input ('Počet', 'qty', 'text')}"/>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Uložit</button>
             </form>
