@@ -10,9 +10,10 @@
         <div class="form-inline">
             <i class="fas fa-fw fa-book mr-1"></i>
             <span class="mr-3">Pohyby</span>
-            <a class="btn btn-primary input-group mr-3 my-1" th:href="@{'/movements/create/' + ${bill}}">Vytvořit pohyb</a>
-            <form action="/movements/search" class="input-group ml-auto mr-0" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dynamicContent" id="form0" method="post">
-                <input type="text" class="form-control ui-autocomplete-input" placeholder="Číslo..." aria-label="Search" aria-describedby="basic-addon2" id="searchBox" name="search" autocomplete="off">
+            <a class="btn btn-primary input-group mr-3 my-1" th:href="@{'/movements/create/' + ${bill}}">Nový pohyb</a>
+            <form th:action="@{/movements/{bill}/page/{i}(bill=${bill}, i=1)}" class="input-group ml-auto mr-0" id="form0" method="get">
+                <input type="text" class="form-control ui-autocomplete-input" placeholder="Název, nebo kód" aria-label="Search"
+                       aria-describedby="basic-addon2" id="searchBox" name="search" autocomplete="off" th:value="${search}">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">
                         <i class="fas fa-search"></i>
@@ -28,23 +29,23 @@
                 <thead class="thead-dark">
                 <tr>
                     <th>
-                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                            (bill=${bill}, i=${currentPage}, sortField='bill.id', sortDir=${reverseSortDir})}">
+                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                            (bill=${bill}, i=${currentPage}, sortField='bill.id', sortDir=${reverseSortDir}, search=${search})}">
                             Doklad</a>
                     </th>
                     <th>
-                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                            (bill=${bill}, i=${currentPage}, sortField='part.code', sortDir=${reverseSortDir})}">
+                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                            (bill=${bill}, i=${currentPage}, sortField='part.code', sortDir=${reverseSortDir}, search=${search})}">
                             Kód dílu</a>
                     </th>
                     <th>
-                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                            (bill=${bill}, i=${currentPage}, sortField='part.name', sortDir=${reverseSortDir})}">
+                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                            (bill=${bill}, i=${currentPage}, sortField='part.name', sortDir=${reverseSortDir}, search=${search})}">
                             Název dílu</a>
                     </th>
                     <th>
-                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                            (bill=${bill}, i=${currentPage}, sortField='qty', sortDir=${reverseSortDir})}">
+                        <a th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                            (bill=${bill}, i=${currentPage}, sortField='qty', sortDir=${reverseSortDir}, search=${search})}">
                             Počet</a>
                     </th>
                     <th>Akce</th>
@@ -75,36 +76,36 @@
             <span>[</span>
             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
               <a th:if="${currentPage != i}"
-                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                    (bill=${bill}, i=${i}, sortField=${sortField}, sortDir=${sortDir})}">[[${i}]]</a>
+                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (bill=${bill}, i=${i}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}">[[${i}]]</a>
               <span th:unless="${currentPage != i}">[[${i}]]</span>
             </span>
             <span>]&nbsp;</span>
             <span>
               <a th:if="${currentPage > 1}"
-                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                    (bill=${bill}, i=1, sortField=${sortField}, sortDir=${sortDir})}"
+                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (bill=${bill}, i=1, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
                  title="První" class="fas fa-angle-double-left"></a>
               <span th:unless="${currentPage > 1}" title="First" class="fas fa-angle-double-left"></span>
             </span>
             <span>
               <a th:if="${currentPage > 1}"
-                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                    (bill=${bill}, i=${currentPage - 1}, sortField=${sortField}, sortDir=${sortDir})}"
+                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (bill=${bill}, i=${currentPage - 1}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
                  title="Předchozí" class="fas fa-angle-left"></a>
               <span th:unless="${currentPage > 1}" title="Previous" class="fas fa-angle-left"></span>
             </span>
             <span>
               <a th:if="${currentPage < totalPages}"
-                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                    (bill=${bill}, i=${currentPage + 1}, sortField=${sortField}, sortDir=${sortDir})}"
+                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (bill=${bill}, i=${currentPage + 1}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
                  title="Další" class="fas fa-angle-right"></a>
               <span th:unless="${currentPage < totalPages}" title="Next" class="fas fa-angle-right"></span>
             </span>
             <span>
               <a th:if="${currentPage < totalPages}"
-                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}
-                    (bill=${bill}, i=${totalPages}, sortField=${sortField}, sortDir=${sortDir})}"
+                 th:href="@{/movements/{bill}/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (bill=${bill}, i=${totalPages}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
                  title="Poslední" class="fas fa-angle-double-right"></a>
               <span th:unless="${currentPage < totalPages}" title="Last" class="fas fa-angle-double-right"></span>
             </span>

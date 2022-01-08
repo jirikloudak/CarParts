@@ -13,11 +13,11 @@
         <div class="card-body">
             <form th:action="@{/parts/save}" th:object="${partEntity}" method="post">
                 <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="qty" th:value="*{qty}">
                 <div class="form-group has-feedback">
                     <input th:replace="~{fragments/inputField :: input ('Název', 'name', 'text')}"/>
                     <input th:replace="~{fragments/inputField :: input ('Kód', 'code', 'text')}"/>
                     <input th:replace="~{fragments/selectField :: select ('Cena', 'price', ${prices})}"/>
-                    <input th:replace="~{fragments/inputField :: input ('Množství', 'qty', 'text')}"/>
                     <input th:replace="~{fragments/inputField :: input ('Minimum', 'min', 'text')}"/>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Uložit</button>

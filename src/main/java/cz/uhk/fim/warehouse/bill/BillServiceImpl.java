@@ -41,18 +41,10 @@ public class BillServiceImpl implements BillService{
     }
 
     @Override
-    public Page<BillEntity> findByType(Character type, int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<BillEntity> findByIdOrPaired(String find, int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.billRepository.findByType(type, pageable);
-    }
-
-    @Override
-    public Page<BillEntity> findById(Integer id, int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.billRepository.findById(id, pageable);
+        return this.billRepository.findByIdOrPaired('%' + find + '%', pageable);
     }
 }

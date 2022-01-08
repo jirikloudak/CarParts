@@ -42,7 +42,7 @@ public class PriceController {
         int pageSize = 9;
 
         Page<PriceEntity> page;
-        if (search != null)
+        if (search != null && !search.isBlank())
         {
             page = priceService.findByName(search, pageNo, pageSize, sortField, sortDir);
         } else {

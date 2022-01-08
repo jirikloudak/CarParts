@@ -48,7 +48,7 @@ class PartController {
         int pageSize = 9;
 
         Page<PartEntity> page;
-        if (search != null)
+        if (search != null && !search.isBlank())
         {
             page = partService.findByCodeOrName(search, pageNo, pageSize, sortField, sortDir);
         } else if (order) {
@@ -76,7 +76,7 @@ class PartController {
     public String updateForm(@PathVariable(value = "id") Integer id, Model model) {
         PartEntity partEntity = partService.getPartById(id);
         List<PriceEntity> prices = priceService.findAllPrices();
-        model.addAttribute("formTitle", "Editace dílu " + partEntity.getName() + " - Id: " + partEntity.getId());
+        model.addAttribute("formTitle", "Editace dílu " + partEntity.toString());
         model.addAttribute("partEntity", partEntity);
         model.addAttribute("prices", prices);
         return VIEW_PART_FORM;
@@ -86,7 +86,7 @@ class PartController {
     public String saveEntity(@Valid PartEntity partEntity, BindingResult result, Model model) {
         if (result.hasErrors()) {
             String formTitle;
-            formTitle = "Editace dokladu " + partEntity.getName() + partEntity.getId();
+            formTitle = "Editace dílu " + partEntity.toString();
             List<PriceEntity> prices = priceService.findAllPrices();
             model.addAttribute("formTitle", formTitle);
             model.addAttribute("prices", prices);

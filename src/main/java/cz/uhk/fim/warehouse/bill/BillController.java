@@ -29,7 +29,7 @@ public class BillController {
 
     @GetMapping("/bills")
     public String viewList(Model model) {
-        return findPaginated(1, "id", "asc", null, null, model);
+        return findPaginated(1, "id", "asc", null, model);
     }
 
     @GetMapping("/bills/create")
@@ -90,25 +90,17 @@ public class BillController {
                                 @RequestParam(name = "sortField", defaultValue = "id") String sortField,
                                 @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir,
                                 @RequestParam(name = "search", required = false) String search,
-                                @RequestParam(name = "type", required = false) Character type,
                                 Model model) {
         int pageSize = 9;
 
         Page<BillEntity> page;
-        if (search != null)
+        if (search != null && !search.isBlank())
         {
-            page = billService.findById(3, pageNo, pageSize, sortField, sortDir);
+            page = billService.findByIdOrPaired(search, pageNo, pageSize, sortField, sortDir);
         }
         else
         {
-            if (type != null)
-            {
-                page = billService.findByType(type, pageNo, pageSize, sortField, sortDir);
-            }
-            else
-            {
-                page = billService.findPaginated(pageNo, pageSize, sortField, sortDir);
-            }
+            page = billService.findPaginated(pageNo, pageSize, sortField, sortDir);
         }
         List<BillEntity> listBills = page.getContent();
 
@@ -121,7 +113,6 @@ public class BillController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("search", search);
-        model.addAttribute("type", type);
         model.addAttribute("listBills", listBills);
         return "/bills/listBills";
     }

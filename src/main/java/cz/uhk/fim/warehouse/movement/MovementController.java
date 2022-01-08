@@ -33,7 +33,7 @@ public class MovementController {
 
     @GetMapping("/movements/{billId}")
     public String viewList(@PathVariable(value = "billId") int billId, Model model) {
-        return findPaginated(billId, 1, "part", "asc", model);
+        return findPaginated(billId, 1, "part", "asc", null, model);
     }
 
     @GetMapping("/movements/{billId}/delete/{id}")
@@ -44,14 +44,23 @@ public class MovementController {
     }
 
     @GetMapping("/movements/{billId}/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "billId") int billId,
-                                @PathVariable(value = "pageNo") int pageNo,
-                                @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDir") String sortDir,
+    public String findPaginated(@PathVariable(name = "billId") int billId,
+                                @PathVariable(name = "pageNo") int pageNo,
+                                @RequestParam(value = "sortField", defaultValue = "part") String sortField,
+                                @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+                                @RequestParam(name = "search", required = false) String search,
                                 Model model) {
         int pageSize = 9;
 
-        Page<MovementEntity> page = movementService.findByBillId(billId, pageNo, pageSize, sortField, sortDir);
+        Page<MovementEntity> page;
+        if (search != null && !search.isBlank())
+        {
+            page = movementService.findByCodeOrName(billId, search, pageNo, pageSize, sortField, sortDir);
+        }
+        else
+        {
+            page = movementService.findByBillId(billId, pageNo, pageSize, sortField, sortDir);
+        }
         List<MovementEntity> listMovements = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -63,6 +72,7 @@ public class MovementController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("bill", billId);
+        model.addAttribute("search", search);
         model.addAttribute("listMovements", listMovements);
         return "movements/listMovements";
     }

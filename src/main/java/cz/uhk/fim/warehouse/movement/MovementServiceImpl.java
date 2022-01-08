@@ -49,6 +49,6 @@ public class MovementServiceImpl implements MovementService{
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return movementRepository.findByBillId(billId, pageable);//movementRepository.findByNameContaining(name, pageable);
+        return movementRepository.findByCodeOrName(billId, '%' + find + '%', pageable);
     }
 }

@@ -22,7 +22,7 @@ public class UnitController {
     private static final String VIEW_UNIT_FORM = "units/createOrUpdateUnit";
 
     @GetMapping("/units")
-    public String viewList (Model model) {return findPaginated(1,"id", "asc", model);}
+    public String viewList (Model model) {return findPaginated(1,"id", "asc", null, model);}
 
     @GetMapping("/units/delete/{id}")
     public String deleteEntity(@PathVariable(value = "id") Integer id) {
@@ -31,13 +31,19 @@ public class UnitController {
     }
 
     @GetMapping("/units/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
-                                @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDir") String sortDir,
+    public String findPaginated(@PathVariable(name = "pageNo") int pageNo,
+                                @RequestParam(name = "sortField", defaultValue = "id") String sortField,
+                                @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir,
+                                @RequestParam(name = "search", required = false) String search,
                                 Model model) {
         int pageSize = 9;
-
-        Page<UnitEntity> page = unitService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        Page<UnitEntity> page;
+        if (search != null && !search.isBlank())
+        {
+            page = unitService.findByName(search, pageNo, pageSize, sortField, sortDir);
+        } else {
+            page = unitService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        }
         List<UnitEntity> listUnits = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -48,6 +54,7 @@ public class UnitController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
+        model.addAttribute("search", search);
         model.addAttribute("listUnits", listUnits);
         return "/units/listUnits";
     }

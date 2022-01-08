@@ -12,23 +12,9 @@
             <span class="mr-3">Střediska</span>
             <a class="btn btn-primary input-group mr-3 my-1" href="/units/create?type=P">Nový dodavatel</a>
             <a class="btn btn-primary input-group mr-3 my-1" href="/units/create?type=V">Nový odběratel</a>
-            <div class="form-inline text-nowrap">
-                <label class="form-check-label mr-2">Zobrazit:</label>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioStrediska" id="radioVsechny" value="" th:checked="${unitType == null}">
-                    <label class="form-check-label" for="radioVsechny">Všechny střediska</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioStrediska" id="radioDodavatele" value="P" th:checked="${unitType == 'P'}">
-                    <label class="form-check-label" for="radioDodavatele">Dodavatelé</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="radioStrediska" id="radioOdberatele" value="V" th:checked="${unitType == 'V'}">
-                    <label class="form-check-label" for="radioOdberatele">Odběratelé</label>
-                </div>
-            </div>
-            <form action="/units/search" class="input-group ml-auto mr-0" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dynamicContent" id="form0" method="post">
-                <input type="text" class="form-control ui-autocomplete-input" placeholder="Název..." aria-label="Search" aria-describedby="basic-addon2" id="searchBox" name="search" autocomplete="off">
+            <form action="/units/page/1" class="input-group ml-auto mr-0" id="form0" method="get">
+                <input type="text" class="form-control ui-autocomplete-input" placeholder="Název" aria-label="Search"
+                       aria-describedby="basic-addon2" id="searchBox" name="search" autocomplete="off" th:value="${search}">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">
                         <i class="fas fa-search"></i>
@@ -44,15 +30,13 @@
                 <thead class="thead-dark">
                 <tr>
                     <th>
-                        <a th:href="@{'/units/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">
-                            Id</a>
-                    </th>
-                    <th>
-                        <a th:href="@{'/units/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">
+                        <a th:href="@{/units/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                            (i=${currentPage}, sortField='name', sortDir=${reverseSortDir}, search=${search})}">
                             Název</a>
                     </th>
                     <th>
-                        <a th:href="@{'/units/page/' + ${currentPage} + '?sortField=type&sortDir=' + ${reverseSortDir}}">
+                        <a th:href="@{/units/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                            (i=${currentPage}, sortField='type', sortDir=${reverseSortDir}, search=${search})}">
                             Typ</a>
                     </th>
                     <th>Akce</th>
@@ -60,7 +44,6 @@
                 </thead>
                 <tbody>
                 <tr th:each="unit : ${listUnits}">
-                    <td th:text="${unit.id}"></td>
                     <td th:text="${unit.name}"></td>
                     <td th:text="${unit.type}"></td>
                     <td>
@@ -81,28 +64,38 @@
             <span>Pages:</span>
             <span>[</span>
             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-              <a th:if="${currentPage != i}" th:href="@{'/units/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+              <a th:if="${currentPage != i}"
+                 th:href="@{/units/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (i=${i}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}">[[${i}]]</a>
               <span th:unless="${currentPage != i}">[[${i}]]</span>
             </span>
             <span>]&nbsp;</span>
             <span>
-              <a th:if="${currentPage > 1}" th:href="@{'/units/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="První"
-                 class="fas fa-angle-double-left"></a>
+              <a th:if="${currentPage > 1}"
+                 th:href="@{/units/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (i=1, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
+                 title="První" class="fas fa-angle-double-left"></a>
               <span th:unless="${currentPage > 1}" title="First" class="fas fa-angle-double-left"></span>
             </span>
             <span>
-              <a th:if="${currentPage > 1}" th:href="@{'/units/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="Předchozí"
-                 class="fas fa-angle-left"></a>
+              <a th:if="${currentPage > 1}"
+                 th:href="@{/units/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (i=${currentPage - 1}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
+                 title="Předchozí" class="fas fa-angle-left"></a>
               <span th:unless="${currentPage > 1}" title="Previous" class="fas fa-angle-left"></span>
             </span>
             <span>
-              <a th:if="${currentPage < totalPages}" th:href="@{'/units/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="Další"
-                 class="fas fa-angle-right"></a>
+              <a th:if="${currentPage < totalPages}"
+                 th:href="@{/units/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (i=${currentPage + 1}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
+                 title="Další" class="fas fa-angle-right"></a>
               <span th:unless="${currentPage < totalPages}" title="Next" class="fas fa-angle-right"></span>
             </span>
             <span>
-              <a th:if="${currentPage < totalPages}" th:href="@{'/units/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" title="Poslední"
-                 class="fas fa-angle-double-right"></a>
+              <a th:if="${currentPage < totalPages}"
+                 th:href="@{/units/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
+                    (i=${totalPages}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
+                 title="Poslední" class="fas fa-angle-double-right"></a>
               <span th:unless="${currentPage < totalPages}" title="Last" class="fas fa-angle-double-right"></span>
             </span>
         </div>

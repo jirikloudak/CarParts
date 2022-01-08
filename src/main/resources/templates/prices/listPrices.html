@@ -10,8 +10,8 @@
         <div class="form-inline">
             <i class="fas fa-fw fa-money-bill-wave mr-1"></i>
             <span class="mr-3">Cenové skupiny</span>
-            <a class="btn btn-primary input-group mr-3 my-1" href="/prices/create">Zadat novou cenovou skupinu</a>
-            <form action="/prices/page/1?search=" class="input-group ml-auto mr-0" id="form0" method="get">
+            <a class="btn btn-primary input-group mr-3 my-1" href="/prices/create">Nová cenová skupina</a>
+            <form action="/prices/page/1" class="input-group ml-auto mr-0" id="form0" method="get">
                 <input type="text" class="form-control ui-autocomplete-input" placeholder="Název" aria-label="Search"
                        aria-describedby="basic-addon2" id="searchBox" name="search" autocomplete="off" th:value="${search}">
                 <div class="input-group-append">
@@ -28,11 +28,6 @@
             <table id="prices" class="table table-bordered table-striped table-sm table-responsive-lg">
                 <thead class="thead-dark">
                 <tr>
-                    <th>
-                        <a th:href="@{/prices/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
-                            (i=${currentPage}, sortField='id', sortDir=${reverseSortDir}, search=${search})}">
-                            Id</a>
-                    </th>
                     <th>
                         <a th:href="@{/prices/page/{i}?sortField={sortField}&sortDir={sortDir}&search={search}
                             (i=${currentPage}, sortField='name', sortDir=${reverseSortDir}, search=${search})}">
@@ -53,7 +48,6 @@
                 </thead>
                 <tbody>
                 <tr th:each="price : ${listPrices}">
-                    <td th:text="${price.id}"></td>
                     <td th:text="${price.name}"></td>
                     <td th:text="${price.purchase}"></td>
                     <td th:text="${price.sale}"></td>
