@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 class PartController {
@@ -69,7 +68,7 @@ class PartController {
         model.addAttribute("search", search);
         model.addAttribute("order", order);
         model.addAttribute("listParts", listParts);
-        return "/parts/listParts";
+        return "parts/listParts";
     }
 
     @GetMapping("/parts/update/{id}")

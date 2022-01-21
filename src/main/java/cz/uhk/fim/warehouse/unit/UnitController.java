@@ -56,7 +56,7 @@ public class UnitController {
 
         model.addAttribute("search", search);
         model.addAttribute("listUnits", listUnits);
-        return "/units/listUnits";
+        return "units/listUnits";
     }
 
     @GetMapping("/units/update/{id}")

@@ -307,3 +307,8 @@ a:hover {
 .page-wrap {
     min-height: 100vh;
 }
+
+.far.fa-frown {
+    font-size: 4rem;
+    padding: 1rem;
+}

@@ -12,5 +12,5 @@ public interface BillRepository extends JpaRepository<BillEntity, Integer> {
 
     @Query("SELECT b FROM BillEntity b WHERE b.paired LIKE :find")
     @Transactional(readOnly = true)
-    Page<BillEntity> findByIdOrPaired(String find, Pageable pageable);
+    Page<BillEntity> findByPaired(String find, Pageable pageable);
 }

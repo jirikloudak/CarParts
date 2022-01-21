@@ -31,7 +31,8 @@ public class PartEntity extends BaseEntity {
     private Integer min;
 
     public PartEntity (){
-
+        this.min = 0;
+        this.qty = 0;
     }
 
     public String getName() {

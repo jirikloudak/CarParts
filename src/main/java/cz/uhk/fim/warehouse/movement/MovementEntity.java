@@ -1,12 +1,11 @@
 package cz.uhk.fim.warehouse.movement;
 
-import cz.uhk.fim.warehouse.model.BaseEntity;
 import cz.uhk.fim.warehouse.bill.BillEntity;
+import cz.uhk.fim.warehouse.model.BaseEntity;
 import cz.uhk.fim.warehouse.part.PartEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "movement", schema = "warehouse")

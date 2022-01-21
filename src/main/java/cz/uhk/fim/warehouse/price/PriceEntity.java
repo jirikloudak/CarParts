@@ -2,9 +2,10 @@ package cz.uhk.fim.warehouse.price;
 
 import cz.uhk.fim.warehouse.model.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 

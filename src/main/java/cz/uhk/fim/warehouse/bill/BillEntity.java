@@ -28,9 +28,7 @@ public class BillEntity extends BaseEntity {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate billDate;
 
-    public BillEntity() {
-
-    }
+    public BillEntity() {}
 
     public BillEntity(Character type, LocalDate billDate) {
         this.type = type;

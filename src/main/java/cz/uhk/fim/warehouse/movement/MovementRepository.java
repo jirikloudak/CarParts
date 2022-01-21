@@ -1,6 +1,5 @@
 package cz.uhk.fim.warehouse.movement;
 
-import cz.uhk.fim.warehouse.part.PartEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

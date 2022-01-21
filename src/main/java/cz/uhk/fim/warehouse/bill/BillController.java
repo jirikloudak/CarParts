@@ -96,7 +96,7 @@ public class BillController {
         Page<BillEntity> page;
         if (search != null && !search.isBlank())
         {
-            page = billService.findByIdOrPaired(search, pageNo, pageSize, sortField, sortDir);
+            page = billService.findByPaired(search, pageNo, pageSize, sortField, sortDir);
         }
         else
         {
@@ -114,6 +114,6 @@ public class BillController {
 
         model.addAttribute("search", search);
         model.addAttribute("listBills", listBills);
-        return "/bills/listBills";
+        return "bills/listBills";
     }
 }

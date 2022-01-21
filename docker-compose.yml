@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  my-web-app-db:
+    container_name: mariadb
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=mvBPjPTzUHK21$$
+      - MYSQL_DATABASE=warehouse
+    ports:
+      - "3306:3306"
+  my-web-app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - my-web-app-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mariadb:3306/warehouse

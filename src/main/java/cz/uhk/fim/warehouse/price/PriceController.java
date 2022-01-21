@@ -1,6 +1,5 @@
 package cz.uhk.fim.warehouse.price;
 
-import cz.uhk.fim.warehouse.part.PartEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -60,7 +59,7 @@ public class PriceController {
 
         model.addAttribute("search", search);
         model.addAttribute("listPrices", listPrices);
-        return "/prices/listPrices";
+        return "prices/listPrices";
     }
 
     @GetMapping("/prices/update/{id}")

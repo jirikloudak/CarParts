@@ -7,5 +7,5 @@ public interface BillService {
     BillEntity getBillById(Integer id);
     void deleteBillById(Integer id);
     Page<BillEntity> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
-    Page<BillEntity> findByIdOrPaired(String find, int pageNo, int pageSize, String sortField, String sortDirection);
+    Page<BillEntity> findByPaired(String find, int pageNo, int pageSize, String sortField, String sortDirection);
 }
