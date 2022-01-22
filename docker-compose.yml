@@ -6,6 +6,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=mvBPjPTzUHK21$$
       - MYSQL_DATABASE=warehouse
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
   my-web-app:
